@@ -20,6 +20,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>
 
+#include "amiga_pattern.h"
+
 struct ALLEGRO_FILECHOOSER {
     char *initial_path;
     char *title;
@@ -45,24 +47,6 @@ static char *dup_or_null(const char *s)
     d = malloc(strlen(s) + 1);
     if (d) strcpy(d, s);
     return d;
-}
-
-/* "*.c" or "*.c;*.h" -> "#?.c" or "(#?.c|#?.h)"; empty -> "#?" */
-static void to_amiga_pattern(char *out, size_t size, const char *patterns)
-{
-    size_t n = 0;
-    int many = patterns && strpbrk(patterns, "; ") != NULL;
-    const char *p = patterns;
-    out[0] = 0;
-    if (!p || !*p) { snprintf(out, size, "#?"); return; }
-    if (many && n < size - 1) out[n++] = '(';
-    for (; *p && n < size - 4; p++) {
-        if (*p == '*') { out[n++] = '#'; out[n++] = '?'; }
-        else if (*p == ';' || *p == ' ') { if (n && out[n - 1] != '|' && out[n - 1] != '(') out[n++] = '|'; }
-        else out[n++] = *p;
-    }
-    if (many && n < size - 1) out[n++] = ')';
-    out[n] = 0;
 }
 
 ALLEGRO_FILECHOOSER *al_create_native_file_dialog(

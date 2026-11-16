@@ -22,6 +22,11 @@ This builds amigaallegro at the pinned commit once, then the game, into
 `OUT/LiberationCircuit/`: the program with `data/`, `proc/`, `story/`,
 `init.txt` and the manual. Settings are in `init.txt`.
 
+The port's own code has host unit tests: `ports/amigaos3/tests/run_tests.sh`.
+
 ## State
 
-Builds on the stove. Not yet run on an Amiga.
+Builds on the GCC 16 stove: amigaallegro 823f17f static, the game 2,721,720 B
+stripped, no source changes to the game. Not yet run on an Amiga (labs closed
+16 Nov night); the first run checks 1024x768 on OpenGPU, the ASL requesters
+and sound.

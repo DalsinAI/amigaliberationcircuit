@@ -68,10 +68,10 @@ mkdir -p "$OBJ"
 OBJS=""
 pids=""
 n=0
-for c in "$ROOT"/src/*.c "$PORT/compat/native_dialog.c"; do
+for c in "$ROOT"/src/*.c "$PORT/compat/native_dialog.c" "$PORT/compat/amiga_pattern.c"; do
     o="$OBJ/$(basename "$c" .c).o"
     OBJS="$OBJS $o"
-    if [ ! -f "$o" ] || [ "$c" -nt "$o" ] || [ "$ALLEGRO_LIB" -nt "$o" ]; then
+    if [ ! -f "$o" ] || [ "$c" -nt "$o" ] || [ "$PORT/compat/amiga_pattern.h" -nt "$o" ] || [ "$ALLEGRO_LIB" -nt "$o" ]; then
         # shellcheck disable=SC2086
         "$CC" $CFLAGS -I"$PORT/compat" -I"$A5_PREFIX/include" -I"$SYSROOT/include" -c -o "$o" "$c" &
         pids="$pids $!"
